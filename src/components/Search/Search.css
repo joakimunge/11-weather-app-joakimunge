@@ -1,0 +1,13 @@
+.search {
+	padding:1em;
+	border:none;
+	border-radius: 25px;
+	background: rgba(255,255,255,0.5);
+	color: #8E8E8E;
+	margin:0 0 0 20px;
+	font-family: 'Nunito';
+}
+
+.search:focus {
+
+}
