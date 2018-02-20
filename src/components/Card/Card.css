@@ -67,3 +67,19 @@
 .card__date {
 	font-size: 12px;
 }
+
+.card__weather--night {
+	background: linear-gradient(to bottom, #330867 0%, #30CFD0 100%);
+}
+
+.card__weather--day {
+	background: linear-gradient(to bottom, #330867 0%, #a6c1ee 100%);
+}
+
+.card__weather--sunrise {
+	background: linear-gradient(to bottom, #FA709A 0%, #FEE140 100%);
+}
+
+.card__weather--sunset {
+	background: linear-gradient(to bottom, #3B3A56 0%, #DE92A2 100%);
+}

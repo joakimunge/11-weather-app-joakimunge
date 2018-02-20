@@ -7,7 +7,7 @@ class Card extends Component {
   render() {
     return (
       <div className="card">
-        <div className="card__weather">
+        <div className={`card__weather card__weather--${this.props.color}`} >
           <div className="card__location">
             <h3 className="card__location__city">STOCKHOLM</h3>
             <h4 className="card__location__city">CLEAR</h4>
