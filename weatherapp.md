@@ -114,3 +114,6 @@ fetch('url')
   : // Render some other JSX
 }
 ```
+
+### Reading
+- Composition vs Inheritance: https://reactjs.org/docs/composition-vs-inheritance.html
