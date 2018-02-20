@@ -1,0 +1,10 @@
+.nav {
+	width: 100%;
+	padding: 1em;
+	display:flex;
+}
+
+.nav i {
+	font-size: 36px;
+	color: #FFF;
+}
