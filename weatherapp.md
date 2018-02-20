@@ -117,3 +117,4 @@ fetch('url')
 
 ### Reading
 - Composition vs Inheritance: https://reactjs.org/docs/composition-vs-inheritance.html
+- Moment.js: https://www.npmjs.com/package/react-moment
