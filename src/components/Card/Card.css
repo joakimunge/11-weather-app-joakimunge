@@ -83,3 +83,12 @@
 .card__weather--sunset {
 	background: linear-gradient(to bottom, #3B3A56 0%, #DE92A2 100%);
 }
+
+.fade-appear {
+  opacity: 0.01;
+}
+
+.fade-appear.fade-appear-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}
