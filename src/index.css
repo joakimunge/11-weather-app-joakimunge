@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background: linear-gradient(to bottom right, #fbc2eb 0%, #a6c1ee 100%) fixed; /* TEMP */
+  height: 100%;
+  font-family: 'Nunito', 'Helvetica', 'Arial', sans-serif;
+}
