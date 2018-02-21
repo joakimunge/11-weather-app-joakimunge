@@ -115,6 +115,28 @@ fetch('url')
 }
 ```
 
+#### Get current geolocation
+```javascript
+
+navigator.geolocation.getCurrentPosition(position => {
+  console.log(position); // Position object
+  console.log(position.coords); // Position coordinates
+  console.log(position.coords.latitude); // Position latitude
+  console.log(position.coords.longitude); // Position longitude
+
+  })
+
+```
+
+```javascript
+days = [Mon, Tue, Wed, Thur, Fri, Sat, Sun];
+epoch = 13512352151; //Date string
+let date = new Date(); //Date object
+let dayName = days[date.getDay()]; //Get day from array
+```
+
+
+
 ### Reading
 - Composition vs Inheritance: https://reactjs.org/docs/composition-vs-inheritance.html
 - Moment.js: https://www.npmjs.com/package/react-moment
