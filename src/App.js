@@ -9,9 +9,6 @@ class App extends Component {
         <Header />
         <CardContainer>
           <Card color="night"/>
-          <Card color="sunrise"/>
-          <Card color="day"/>
-          <Card color="sunset"/>
         </CardContainer>
       </div>
     );
