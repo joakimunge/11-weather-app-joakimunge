@@ -1,4 +1,7 @@
 # Weatherapp
+
+## Todo
+- Move helper functions to new component
  
 ## Get started
 - Create react app: https://reactjs.org/docs/add-react-to-a-new-app.html
