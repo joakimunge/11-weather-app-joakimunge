@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardContainer, Header } from './components';
+import { Card, CardContainer, CardDetail, Header } from './components';
 import './App.css';
 
 class App extends Component {
@@ -8,7 +8,11 @@ class App extends Component {
       <div className="App">
         <Header />
         <CardContainer>
-          <Card color="night"/>
+          <CardDetail color="sunset" />
+          <CardDetail color="sunrise" />
+          <CardDetail color="night" />
+          <CardDetail color="day" />
+
         </CardContainer>
       </div>
     );

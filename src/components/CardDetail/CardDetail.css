@@ -13,6 +13,7 @@
 	transition: transform 0.3s ease;
 	overflow: hidden;
 	font-family: 'Nunito';
+	position: relative;
 }
 
 .CardDetail__weather {
