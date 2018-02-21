@@ -18,7 +18,6 @@
 .CardDetail__weather {
 	width: 100%;
 	height: 440px;
-	background: linear-gradient(to bottom, #330867 0%, #a6c1ee 100%); /* TEMP */
 	display:flex;
 	flex-direction: column;
 	align-items: left;

@@ -42,8 +42,8 @@ class CardDetail extends Component {
       transitionEnter={false}
       transitionLeave={false}>
         <div className="CardDetail">
-          <div className="CardDetail__weather card__weather--night" >
-            <span class="CardDetail__backdrop"><i className="wi wi-night-sleet"></i></span>
+          <div className={`CardDetail__weather CardDetail__weather--${this.props.color}`} >
+            <span className="CardDetail__backdrop"><i className="wi wi-night-sleet"></i></span>
             <div className="CardDetail__location">
               <h3>STOCKHOLM</h3>
               <h4>THUNDER STORM</h4>

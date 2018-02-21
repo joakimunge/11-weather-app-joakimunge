@@ -11,7 +11,14 @@ import { default as CardDetail } from '../components/CardDetail/CardDetail.js';
 
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
-storiesOf('CardDetail', module).add('Normal', () => <CardDetail />);
+storiesOf('CardDetail', module)
+	.add('Normal - Sunrise', () => <CardDetail color="sunrise"/>)
+	.add('Normal - Night', () => <CardDetail color="night"/>)
+	.add('Normal - Sunset', () => <CardDetail color="sunset"/>)
+	.add('Normal - Day', () => <CardDetail color="day"/>);
+
+
+
 
 
 storiesOf('Button', module)
