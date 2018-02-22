@@ -9,6 +9,8 @@ import { Button, Welcome } from '@storybook/react/demo';
 
 import { default as CardDetail } from '../components/CardDetail/CardDetail.js';
 import { default as Loader } from '../components/Loader/Loader.js';
+import { default as Moment } from '../components/Helpers/Moment/Moment.js';
+
 
 
 
@@ -20,6 +22,7 @@ storiesOf('CardDetail', module)
 	.add('Normal - Day', () => <CardDetail color="day"/>);
 
 storiesOf('Loader', module).add('Normal', () => <Loader />);
+storiesOf('Moment', module).add('Normal', () => <Moment />);
 
 
 
