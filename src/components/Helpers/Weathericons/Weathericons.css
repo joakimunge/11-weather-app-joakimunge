@@ -1,0 +1,30 @@
+.clear-day:before {
+	content: "\f00d";
+}
+.clear-night:before {
+	content: "\f02e";
+}
+.rain:before {
+	content: "\f019";
+}
+.snow:before {
+	content: "\f01b";
+}
+.sleet:before {
+	content: "\f0b5";
+}
+.wind:before {
+	content: "\f012";
+}
+.fog:before {
+	content: "\f014";
+}
+.cloudy:before {
+	content: "\f013";
+}
+.partly-cloudy-day:before {
+	content: "\f002";
+}
+.partly-cloudy-night:before {
+	content: "\f086";
+}

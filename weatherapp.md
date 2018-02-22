@@ -2,6 +2,8 @@
 
 ## Todo
 - Move helper functions to new component
+- Implement search by city
+- Routes for list and area view
  
 ## Get started
 - Create react app: https://reactjs.org/docs/add-react-to-a-new-app.html
