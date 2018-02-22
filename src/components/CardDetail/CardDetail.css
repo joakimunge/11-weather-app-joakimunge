@@ -117,7 +117,7 @@
 }
 
 .CardDetail__weather--day {
-	background: linear-gradient(to bottom, #330867 0%, #a6c1ee 100%);
+	background: linear-gradient(to bottom, #56CCF2 0%, #2F80ED 100%);
 }
 
 .CardDetail__weather--sunrise {
