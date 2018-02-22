@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { default as Search } from '../Search/Search';
+import { Link } from 'react-router-dom';
 
 import './Header.css';
 
@@ -9,7 +10,7 @@ class Header extends Component {
       <header>
         <nav className="nav">
           <div className="logo">
-            <i className="wi wi-umbrella"></i>
+            <Link to="/"><i className="wi wi-umbrella"></i></Link>
           </div>
           <Search />
         </nav>
