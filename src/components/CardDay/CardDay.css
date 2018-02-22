@@ -22,12 +22,12 @@
 	align-items: center;
 }
 
-.icon {
+.CardDay .icon {
 	font-family: 'weathericons';
 	font-size: 26px;
 	margin-left:1em;
 }
 
-.temp {
+.CardDay .temp {
 	font-weight: 700;
 }
