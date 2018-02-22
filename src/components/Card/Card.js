@@ -16,15 +16,27 @@ class Card extends Component {
         url: process.env.REACT_APP_DARKSKY_URL,
         proxy: process.env.REACT_APP_PROXY_URL
       },
-      location: {
-        longitude: '-71.0589',
-        latitude: '42.3601',
+      gmap: {
+        url: process.env.REACT_APP_GMAP_URL,
+        key: process.env.REACT_APP_GMAP_SECRET
       },
-      temp: '7°',
-      condition: 'CLEAR',
+      wasSuccessful: false,
       time: new Date(),
       date: new Date().toLocaleDateString()
     }
+  }
+
+  getCoordsFromCity(city) {
+    fetch(this.state.gmap.url + city + '&key=' + this.state.gmap.key)
+      .catch(error => console.log(error))
+      .then(res => res.json())
+      .then(res => this.setState({
+        location: {
+          longitude: res.results[0].geometry.location.lng,
+          latitude: res.results[0].geometry.location.lat,
+        }
+      }))
+      .then(res => this.getForecast());
   }
 
   getForecast() {
@@ -37,25 +49,32 @@ class Card extends Component {
           this.state.location.longitude + 
           '?exclude=minutely,hourly,alerts,flags?units=si'
       )
+      .catch(error => {
+        console.log(error);
+        this.setState({
+          wasSuccessful: false
+        })
+      })
       .then(res => res.json())
       .then(res => {
         console.log(res);
         this.setState({
+          wasSuccessful: true,
           forecast: res
         });
       })
-      .then(res => console.log(this.state))
   }
 
   componentDidMount() {
-    this.getForecast();
+    this.getCoordsFromCity(this.props.city);
+    // this.getForecast();
     this.ticker = setInterval(
       () => this.tick(),
       1000
     );
   }
 
-  componentDidUnmount() {
+  componentWillUnmount() {
     clearInterval(this.ticker);
   }
 
@@ -81,11 +100,11 @@ class Card extends Component {
       transitionEnterTimeout={500}
       transitionLeave={true}
       transitionLeaveTimeout={500}>
-      { this.state.forecast ?
+      { this.state.wasSuccessful && this.state.forecast ?
         <div className="card">
           <div className={`card__weather card__weather--${this.props.color}`} >
             <div className="card__location">
-              <h3 className="card__location__city">{this.cleanUpTimezone(this.state.forecast.timezone)}</h3>
+              <h3 className="card__location__city">{this.props.city.toUpperCase()}</h3>
               <h4 className="card__location__city">{this.state.forecast.currently.summary.toUpperCase()}</h4>
             </div>
             <div className="card__temp">
