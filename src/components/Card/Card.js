@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { CSSTransitionGroup } from 'react-transition-group';
 import { default as CardDays } from '../CardDays/CardDays';
 import { default as Loader } from '../Loader/Loader';
-import { TimeToString } from '../Helpers/Helpers';
+import { TimeToString, LocalTime, LocalDate } from '../Helpers/Helpers';
+import moment from 'moment-timezone';
 
 
 import './Card.css';
@@ -23,8 +24,7 @@ class Card extends Component {
         key: process.env.REACT_APP_GMAP_SECRET
       },
       wasSuccessful: false,
-      time: new Date(),
-      date: new Date().toLocaleDateString()
+      time: moment()
     }
   }
 
@@ -67,6 +67,7 @@ class Card extends Component {
           forecast: res
         });
       })
+      .then(_ => console.log(this.state));
   }
 
   componentDidMount() {
@@ -83,7 +84,7 @@ class Card extends Component {
 
   tick() {
     this.setState({
-      time: new Date()
+      time: moment()
     })
   }
 
@@ -103,7 +104,7 @@ class Card extends Component {
         state: { fromCard: true }
        }} >
           <div className="card">
-            <div className={`card__weather card__weather--${TimeToString(this.state.time)}`} >
+            <div className={`card__weather card__weather--${TimeToString(this.state.time, this.state.forecast.timezone)}`} >
               <div className="card__location">
                 <h3 className="card__location__city">{this.props.city.toUpperCase()}</h3>
                 <h4 className="card__location__city">{this.state.forecast.currently.summary.toUpperCase()}</h4>
@@ -112,8 +113,8 @@ class Card extends Component {
                 <span>{this.state.forecast.currently.temperature.toFixed()}°</span>
               </div>
               <div className="card__datetime">
-                <span className="card__time">{this.state.forecast.currently.time}</span>
-                <span className="card__date">{this.state.date}</span>
+                <span className="card__time">{LocalTime(this.state.time, this.state.forecast.timezone)}</span>
+                <span className="card__date">{LocalDate(this.state.time, this.state.forecast.timezone)}</span>
               </div>
             </div>
             <div className="card__prognosis">

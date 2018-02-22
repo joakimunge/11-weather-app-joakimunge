@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group';
 import { default as Loader } from '../Loader/Loader';
-import { TimeToString } from '../Helpers/Helpers';
+import { TimeToString, LocalTime, LocalDate } from '../Helpers/Helpers';
+import moment from 'moment-timezone';
 
 import './CardDetail.css';
+import '../Helpers/Weathericons/Weathericons.css'
 
 class CardDetail extends Component {
 
@@ -21,8 +23,7 @@ class CardDetail extends Component {
         key: process.env.REACT_APP_GMAP_SECRET
       },
       wasSuccessful: false,
-      time: new Date(),
-      date: new Date().toLocaleDateString()
+      time: moment()
     }
   }
 
@@ -65,11 +66,11 @@ class CardDetail extends Component {
           forecast: res
         });
       })
+      .then(_ => console.log(this.state));
   }
 
   componentDidMount() {
     this.getCoordsFromCity(this.props.match.params.location);
-    console.log(this.props.match.params.location);
     this.ticker = setInterval(
       () => this.tick(),
       1000
@@ -82,7 +83,7 @@ class CardDetail extends Component {
 
   tick() {
     this.setState({
-      time: new Date()
+      time: moment()
     })
   }
 
@@ -96,8 +97,8 @@ class CardDetail extends Component {
       transitionLeave={false}>
       { this.state.wasSuccessful && this.state.forecast ?
         <div className="CardDetail">
-          <div className={`CardDetail__weather CardDetail__weather--${TimeToString(this.state.time)}`} >
-            <span className="CardDetail__backdrop"><i className="wi wi-night-sleet"></i></span>
+          <div className={`CardDetail__weather CardDetail__weather--${TimeToString(this.state.time, this.state.forecast.timezone)}`} >
+            <span className="CardDetail__backdrop"><i className={`wi ${this.state.forecast.daily.icon}`}></i></span>
             <div className="CardDetail__location">
               <h3>{this.props.match.params.location.toUpperCase()}</h3>
               <h4>{this.state.forecast.currently.summary.toUpperCase()}</h4>
@@ -106,8 +107,8 @@ class CardDetail extends Component {
               <span>8°</span>
             </div>
             <div className="CardDetail__datetime">
-              <span className="CardDetail__time">{this.state.time.toLocaleTimeString()}</span>
-              <span className="CardDetail__date">{this.state.date}</span>
+              <span className="CardDetail__time">{LocalTime(this.state.time, this.state.forecast.timezone)}</span>
+              <span className="CardDetail__date">{LocalDate(this.state.time, this.state.forecast.timezone)}</span>
             </div>
           </div>
           <div className="CardDetail__prognosis">
