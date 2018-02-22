@@ -1,3 +1,7 @@
+// import moment from 'moment';
+import moment from 'moment-timezone';
+
+
 // Convert epoch string to Day of the week
 export const EpochToDay = (epoch) => {
     const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -13,20 +17,21 @@ export const CleanUpTimezone = (timezone) => {
 }
 
 // Convert time of day to night, day, sunrise, sunset
-export const TimeToString = (obj) => {
+export const TimeToString = (obj, zone) => {
   const periods = ['night', 'sunrise', 'day', 'sunset'];
-  let time = obj.getHours();
-  switch (time) {
-    case time >= 22:
+  let time = obj.tz(zone).format('HH');
+  time = parseInt(time);
+  switch (true) {
+    case (time >= 22 || time < 5):
       return periods[0];
-    case time <= 7:
+    case (time >= 5 && time < 8):
       return periods[1];
-    case time >= 8:
+    case (time >= 8 && time < 18):
       return periods[2];
-    case time >= 18:
+    case (time >= 18 && time < 22):
       return periods[3];
     default:
-      return periods[2]; 
+      return periods[2];
   }
 }
 
@@ -34,6 +39,7 @@ export const TimeToString = (obj) => {
 export const UnitConversion = (degrees) => {
   // Do stuff soon
 }
+
 export const LocalTime = (time, zone) => {
   const format = 'HH:mm:ss';
   return time.tz(zone).format(format);
