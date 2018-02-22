@@ -34,3 +34,12 @@ export const TimeToString = (obj) => {
 export const UnitConversion = (degrees) => {
   // Do stuff soon
 }
+export const LocalTime = (time, zone) => {
+  const format = 'HH:mm:ss';
+  return time.tz(zone).format(format);
+}
+
+export const LocalDate = (time, zone) => {
+  const format = 'DD/MM/2018';
+  return time.tz(zone).format(format);
+}
