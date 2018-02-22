@@ -98,7 +98,7 @@ class CardDetail extends Component {
       { this.state.wasSuccessful && this.state.forecast ?
         <div className="CardDetail">
           <div className={`CardDetail__weather CardDetail__weather--${TimeToString(this.state.time, this.state.forecast.timezone)}`} >
-            <span className="CardDetail__backdrop"><i className={`wi ${this.state.forecast.daily.icon}`}></i></span>
+            <span className="CardDetail__backdrop"><i className={`wi ${this.state.forecast.daily.data[0].icon}`}></i></span>
             <div className="CardDetail__location">
               <h3>{this.props.match.params.location.toUpperCase()}</h3>
               <h4>{this.state.forecast.currently.summary.toUpperCase()}</h4>
