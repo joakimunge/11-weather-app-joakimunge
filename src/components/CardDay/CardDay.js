@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import './CardDay.css';
+import '../Helpers/Weathericons/Weathericons.css'
 
 class CardDay extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class CardDay extends Component {
       	</div>
       	<div className="weather">
       		<span className="temp">{this.state.forecast.temperatureMax.toFixed()}°</span>
-      		<span className="icon"><i className="wi wi-night-sleet"></i></span>
+      		<span className="icon"><i className={`wi ${this.state.forecast.icon}`}></i></span>
       	</div>
       </li>
     );

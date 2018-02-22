@@ -11,7 +11,7 @@ class CardDays extends Component {
 	}
 
 	componentDidMount() {
-		console.log(this.state);
+
 	}
   render() {
     return (
