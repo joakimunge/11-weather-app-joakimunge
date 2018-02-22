@@ -8,6 +8,8 @@ import { linkTo } from '@storybook/addon-links';
 import { Button, Welcome } from '@storybook/react/demo';
 
 import { default as CardDetail } from '../components/CardDetail/CardDetail.js';
+import { default as Loader } from '../components/Loader/Loader.js';
+
 
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
@@ -17,6 +19,7 @@ storiesOf('CardDetail', module)
 	.add('Normal - Sunset', () => <CardDetail color="sunset"/>)
 	.add('Normal - Day', () => <CardDetail color="day"/>);
 
+storiesOf('Loader', module).add('Normal', () => <Loader />);
 
 
 
