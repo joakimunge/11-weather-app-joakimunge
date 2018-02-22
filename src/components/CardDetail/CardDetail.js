@@ -104,7 +104,7 @@ class CardDetail extends Component {
               <h4>{this.state.forecast.currently.summary.toUpperCase()}</h4>
             </div>
             <div className="CardDetail__temp">
-              <span>8°</span>
+              <span>{this.state.forecast.currently.temperature.toFixed()}°</span>
             </div>
             <div className="CardDetail__datetime">
               <span className="CardDetail__time">{LocalTime(this.state.time, this.state.forecast.timezone)}</span>
