@@ -8,10 +8,16 @@ class App extends Component {
       <div className="App">
         <Header />
         <CardContainer>
-          <CardDetail color="sunset" />
-          <CardDetail color="sunrise" />
-          <CardDetail color="night" />
+          {/* <CardDetail color="sunrise" />
           <CardDetail color="day" />
+          <CardDetail color="sunset" />
+          <CardDetail color="night" /> */}
+          <Card color="sunrise" city="Stockholm" />
+          <Card color="night" city="Dubai" />
+          <Card color="sunrise" city="Los Angeles" />
+          <Card color="sunset" city="One" />
+
+
 
         </CardContainer>
       </div>
