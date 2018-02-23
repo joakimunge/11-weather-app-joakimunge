@@ -40,12 +40,11 @@ export const UnitConversion = (degrees) => {
   // Do stuff soon
 }
 
-export const LocalTime = (time, zone) => {
-  const format = 'HH:mm:ss';
+export const LocalTime = (time, zone, format) => {
   return time.tz(zone).format(format);
 }
 
 export const LocalDate = (time, zone) => {
-  const format = 'DD/MM/2018';
+  const format = 'LL';
   return time.tz(zone).format(format);
 }

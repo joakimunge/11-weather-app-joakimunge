@@ -113,12 +113,12 @@ class Card extends Component {
                 <span>{this.state.forecast.currently.temperature.toFixed()}°</span>
               </div>
               <div className="card__datetime">
-                <span className="card__time">{LocalTime(this.state.time, this.state.forecast.timezone)}</span>
+                <span className="card__time">{LocalTime(this.state.time, this.state.forecast.timezone, 'HH:mm:ss')}</span>
                 <span className="card__date">{LocalDate(this.state.time, this.state.forecast.timezone)}</span>
               </div>
             </div>
             <div className="card__prognosis">
-              <CardDays forecast={this.state.forecast.daily} />
+              <CardDays forecast={this.state.forecast.daily} limit="3" />
             </div>
           </div>
         </Link>
