@@ -66,8 +66,7 @@ class Card extends Component {
           wasSuccessful: true,
           forecast: res
         });
-      })
-      .then(_ => console.log(this.state));
+      });
   }
 
   componentDidMount() {

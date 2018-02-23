@@ -10,10 +10,6 @@ class CardDays extends Component {
 		this.state = props;
 	}
 
-	componentWillMount() {
-    console.log(this.props)
-	}
-
   renderCardDaysFromLimit(limit) {
     const days = [];
     for (let i = 0; i < limit; i++) {
@@ -25,7 +21,7 @@ class CardDays extends Component {
   render() {
     return (
       <ul className="CardDays">
-        {this.renderCardDaysFromLimit(parseInt(this.props.limit))}
+        {this.renderCardDaysFromLimit(parseInt(this.props.limit, 10))}
       </ul>
     );
   }

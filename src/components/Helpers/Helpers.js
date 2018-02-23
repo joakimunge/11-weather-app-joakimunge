@@ -1,5 +1,4 @@
-// import moment from 'moment';
-import moment from 'moment-timezone';
+// import moment from 'moment-timezone';
 
 
 // Convert epoch string to Day of the week
@@ -20,7 +19,7 @@ export const CleanUpTimezone = (timezone) => {
 export const TimeToString = (obj, zone) => {
   const periods = ['night', 'sunrise', 'day', 'sunset'];
   let time = obj.tz(zone).format('HH');
-  time = parseInt(time);
+  time = parseInt(time, 10);
   switch (true) {
     case (time >= 22 || time < 5):
       return periods[0];

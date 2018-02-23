@@ -48,9 +48,6 @@ class CardDetail extends Component {
   }
 
   success(pos) {
-    let crd = pos.coords;
-    console.log(pos);
-    console.log(this);
     this.setState({
         location: {
           longitude: pos.coords.longitude,
@@ -80,8 +77,7 @@ class CardDetail extends Component {
           wasSuccessful: true,
           forecast: res
         });
-      })
-      .then(_ => console.log(this.state));
+      });
   }
 
   getLocation() {
