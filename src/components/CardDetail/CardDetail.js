@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group';
-import { default as Loader } from '../Loader/Loader';
-import { TimeToString, LocalTime, LocalDate } from '../Helpers/Helpers';
 import moment from 'moment-timezone';
+import { default as Loader } from '../Loader/Loader';
+import { default as Hour } from './Hour/Hour';
+import { default as CardDays } from '../CardDays/CardDays';
+import { TimeToString, LocalTime, LocalDate, CleanUpTimezone } from '../Helpers/Helpers';
 
 import './CardDetail.css';
 import '../Helpers/Weathericons/Weathericons.css'
@@ -11,7 +13,6 @@ class CardDetail extends Component {
 
   constructor() {
     super();
-    console.log(this.state);
     this.state = {
       api: {
         key: process.env.REACT_APP_DARKSKY_SECRET,
@@ -23,6 +24,8 @@ class CardDetail extends Component {
         key: process.env.REACT_APP_GMAP_SECRET
       },
       wasSuccessful: false,
+      isSearchQuery: true,
+      isGeoQuery: true,
       time: moment()
     }
   }
@@ -44,6 +47,18 @@ class CardDetail extends Component {
       .then(res => this.getForecast());
   }
 
+  success(pos) {
+    let crd = pos.coords;
+    console.log(pos);
+    console.log(this);
+    this.setState({
+        location: {
+          longitude: pos.coords.longitude,
+          latitude: pos.coords.latitude
+        }
+      }, this.getForecast);
+  };
+
   getForecast() {
     fetch(this.state.api.proxy + 
           this.state.api.url + 
@@ -52,7 +67,7 @@ class CardDetail extends Component {
           this.state.location.latitude + 
           ',' + 
           this.state.location.longitude + 
-          '?exclude=minutely,hourly,alerts,flags?units=si'
+          '?exclude=minutely,alerts,flags?units=si'
       )
       .catch(error => {
         this.setState({
@@ -69,7 +84,15 @@ class CardDetail extends Component {
       .then(_ => console.log(this.state));
   }
 
+  getLocation() {
+    navigator.geolocation.getCurrentPosition(success => this.success(success));
+  }
+
   componentDidMount() {
+    if(this.props.match.path && this.props.match.path === '/whereami') {
+      this.getLocation();
+      return;
+    }
     this.getCoordsFromCity(this.props.match.params.location);
     this.ticker = setInterval(
       () => this.tick(),
@@ -87,63 +110,60 @@ class CardDetail extends Component {
     })
   }
 
+  renderHourlyPrognosis() {
+    let hourlyPrognosis = [];
+
+    for(let i = 0; i < 21; i++) {
+      if (i % 3 === 0 && i !== 0) { 
+        hourlyPrognosis.push(
+          <Hour 
+            key={i} 
+            time={moment(this.state.forecast.hourly.data[i].time * 1000)}
+            timezone={this.state.forecast.timezone}
+            icon={this.state.forecast.hourly.data[i].icon} 
+            temp={this.state.forecast.hourly.data[i].temperature} 
+          />
+        );
+      }
+    } 
+
+    return hourlyPrognosis.map(prognosis => prognosis);
+  }
+
   render() {
     return (
       <CSSTransitionGroup
+      className="flex"
       transitionName="fade"
       transitionAppear={true}
       transitionAppearTimeout={500}
       transitionEnter={false}
       transitionLeave={false}>
       { this.state.wasSuccessful && this.state.forecast ?
-        <div className="CardDetail">
-          <div className={`CardDetail__weather CardDetail__weather--${TimeToString(this.state.time, this.state.forecast.timezone)}`} >
-            <span className="CardDetail__backdrop"><i className={`wi ${this.state.forecast.daily.data[0].icon}`}></i></span>
-            <div className="CardDetail__location">
-              <h3>{this.props.match.params.location.toUpperCase()}</h3>
-              <h4>{this.state.forecast.currently.summary.toUpperCase()}</h4>
+        <div className="CardDetail__wrapper">
+          <div className="CardDetail">
+            <div className={`CardDetail__weather CardDetail__weather--${TimeToString(this.state.time, this.state.forecast.timezone)}`} >
+              <span className="CardDetail__backdrop"><i className={`wi ${this.state.forecast.daily.data[0].icon}`}></i></span>
+              <div className="CardDetail__location">
+                <h3>{CleanUpTimezone(this.state.forecast.timezone)}</h3>
+                <h4>{this.state.forecast.currently.summary.toUpperCase()}</h4>
+              </div>
+              <div className="CardDetail__temp">
+                <span>{this.state.forecast.currently.temperature.toFixed()}°</span>
+              </div>
+              <div className="CardDetail__datetime">
+                <span className="CardDetail__time">{LocalTime(this.state.time, this.state.forecast.timezone, 'HH:mm:ss')}</span>
+                <span className="CardDetail__date">{LocalDate(this.state.time, this.state.forecast.timezone)}</span>
+              </div>
             </div>
-            <div className="CardDetail__temp">
-              <span>{this.state.forecast.currently.temperature.toFixed()}°</span>
-            </div>
-            <div className="CardDetail__datetime">
-              <span className="CardDetail__time">{LocalTime(this.state.time, this.state.forecast.timezone)}</span>
-              <span className="CardDetail__date">{LocalDate(this.state.time, this.state.forecast.timezone)}</span>
+            <div className="CardDetail__prognosis">
+              <ul className="CardDetail__prognosis__list">
+                 { this.renderHourlyPrognosis() }
+              </ul>
             </div>
           </div>
-          <div className="CardDetail__prognosis">
-            <ul className="CardDetail__prognosis__list">
-              <li className="CardDetail__prognosis__item">
-                <span className="icon"><i className="wi wi-night-sleet"></i></span>
-                <p>Thursday</p>
-                <span className="temp">22°</span>
-              </li>
-              <li className="CardDetail__prognosis__item">
-                <span className="icon"><i className="wi wi-night-sleet"></i></span>
-                <p>Thursday</p>
-                <span className="temp">22°</span>
-              </li>
-              <li className="CardDetail__prognosis__item">
-                <span className="icon"><i className="wi wi-night-sleet"></i></span>
-                <p>Thursday</p>
-                <span className="temp">22°</span>
-              </li>
-              <li className="CardDetail__prognosis__item">
-                <span className="icon"><i className="wi wi-night-sleet"></i></span>
-                <p>Thursday</p>
-                <span className="temp">22°</span>
-              </li>
-              <li className="CardDetail__prognosis__item">
-                <span className="icon"><i className="wi wi-night-sleet"></i></span>
-                <p>Thursday</p>
-                <span className="temp">22°</span>
-              </li>
-              <li className="CardDetail__prognosis__item">
-                <span className="icon"><i className="wi wi-night-sleet"></i></span>
-                <p>Thursday</p>
-                <span className="temp">22°</span>
-              </li>
-            </ul>
+          <div className="CardDetail__daily">
+            <CardDays forecast={this.state.forecast.daily} limit="8" />
           </div>
         </div>
         :
