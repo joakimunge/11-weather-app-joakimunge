@@ -7,3 +7,4 @@ export { default as CardDays } from './CardDay/CardDay.js';
 export { default as CardDay } from './CardDays/CardDays.js';
 export { default as CardDetail } from './CardDetail/CardDetail.js';
 export { default as Loader } from './Loader/Loader.js';
+export { default as Button } from './Button/Button.js';
