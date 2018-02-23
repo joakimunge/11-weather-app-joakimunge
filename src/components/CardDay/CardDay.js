@@ -10,15 +10,18 @@ class CardDay extends Component {
     this.state = props;
   }
 
+  componentWillMount() {
+  }
+
   render() {
     return (
       <li className="CardDay">
       	<div className="day">
-      		<p>{EpochToDay(this.state.forecast.time)}</p>
+      		<p>{EpochToDay(this.props.forecast.time)}</p>
       	</div>
       	<div className="weather">
-      		<span className="temp">{this.state.forecast.temperatureMax.toFixed()}°</span>
-      		<span className="icon"><i className={`wi ${this.state.forecast.icon}`}></i></span>
+      		<span className="temp">{this.props.forecast.temperatureMax.toFixed()}°</span>
+      		<span className="icon"><i className={`wi ${this.props.forecast.icon}`}></i></span>
       	</div>
       </li>
     );

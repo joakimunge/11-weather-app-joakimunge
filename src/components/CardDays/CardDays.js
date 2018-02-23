@@ -10,15 +10,22 @@ class CardDays extends Component {
 		this.state = props;
 	}
 
-	componentDidMount() {
-
+	componentWillMount() {
+    console.log(this.props)
 	}
+
+  renderCardDaysFromLimit(limit) {
+    const days = [];
+    for (let i = 0; i < limit; i++) {
+      days.push(<CardDay key={i} forecast={this.props.forecast.data[i]}/>)
+    }
+
+    return days.map(day => day);
+  }
   render() {
     return (
       <ul className="CardDays">
-      	<CardDay forecast={this.state.forecast.data[0]}/>
-      	<CardDay forecast={this.state.forecast.data[1]}/>
-      	<CardDay forecast={this.state.forecast.data[2]}/>
+        {this.renderCardDaysFromLimit(parseInt(this.props.limit))}
       </ul>
     );
   }

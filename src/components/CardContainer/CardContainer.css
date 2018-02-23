@@ -1,7 +1,6 @@
 .CardContainer {
+	width:100%;
 	display:flex;
 	flex-wrap: wrap;
-	align-items: center;
-	height:100vh;
 	justify-content: center;
 }
