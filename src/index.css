@@ -12,3 +12,10 @@ body {
 a {
 	text-decoration: none;
 }
+
+* {
+  font-family: 'Nunito', 'Helvetica', 'Arial', sans-serif;
+	box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;	
+}
