@@ -10,6 +10,7 @@ class Main extends Component {
       <main>
         <Switch>
           <Route exact path="/" component={CardContainer} />
+          <Route path="/whereami" component={CardDetail} />
           <Route path="/location/:location" component={CardDetail} details={true}/>
         </Switch>
       </main>
