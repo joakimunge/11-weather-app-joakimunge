@@ -101,6 +101,17 @@
 	font-size: 18px;
 }
 
+.CardDetail__save {
+	color: #ffd15e;
+	transition: transform 0.3s ease;
+
+}
+
+.CardDetail__save:hover {
+	cursor: pointer;
+	transform: scale(1.10);
+}
+
 .CardDetail__prognosis__list {
 	display:flex;
 	justify-content: space-around;

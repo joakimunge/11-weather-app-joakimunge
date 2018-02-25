@@ -4,7 +4,7 @@ import moment from 'moment-timezone';
 import { default as Loader } from '../Loader/Loader';
 import { default as Hour } from './Hour/Hour';
 import { default as CardDays } from '../CardDays/CardDays';
-import { TimeToString, LocalTime, LocalDate, CleanUpTimezone } from '../Helpers/Helpers';
+import { TimeToString, LocalTime, LocalDate } from '../Helpers/Helpers';
 
 import './CardDetail.css';
 import '../Helpers/Weathericons/Weathericons.css'
@@ -23,18 +23,57 @@ class CardDetail extends Component {
         url: process.env.REACT_APP_GMAP_URL,
         key: process.env.REACT_APP_GMAP_SECRET
       },
+      isSaved: false,
       wasSuccessful: false,
       isSearchQuery: true,
       isGeoQuery: true,
       time: moment()
     }
+
+    this.saveLocation = this.saveLocation.bind(this);
+  }
+
+  isSaved() {
+    const locations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+
+    const saved = locations.filter((location) => 
+      location.name === this.state.city
+    );
+
+    if (saved.length > 0) {
+      return true;
+    }
+
+    return false;
+  }
+
+  saveLocation() {
+    const locations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+
+    if(this.isSaved()) {
+      const indexToRemove = locations.map(item => { return item.name}).indexOf(this.state.city);
+      locations.splice(indexToRemove, 1);
+      localStorage.setItem('savedLocations', JSON.stringify(locations))
+      return;
+    }
+
+    const location = {
+      "name": this.state.city
+    }
+
+    locations.push(location);
+    localStorage.setItem('savedLocations', JSON.stringify(locations))
+    this.setState({
+      isSaved: true
+    })
+    this.forceUpdate();
   }
 
   getCoordsFromCity(city) {
     this.setState({
       loadingState: 'Fetching coordinates..'
     });
-    fetch(this.state.gmap.url + city + '&key=' + this.state.gmap.key)
+    fetch(this.state.gmap.url + '&address=' +  city + '&key=' + this.state.gmap.key)
       .catch(error => console.log(error))
       .then(res => res.json())
       .then(res => this.setState({
@@ -47,13 +86,30 @@ class CardDetail extends Component {
       .then(res => this.getForecast());
   }
 
-  success(pos) {
+  getAreaFromCoords(coords) {
+    fetch(this.state.gmap.url + 
+      'latlng=' + coords.latitude + 
+      ',' + coords.longitude + 
+      '&result_type=locality' +
+      '&key=' + 
+      this.state.gmap.key)
+      .then(res => res.json())
+      .then(res => {
+        this.setState({
+          city: res.results[0].address_components[0].long_name 
+        })
+      })
+  }
+
+  setCurrentPosition(pos) {
     this.setState({
         location: {
           longitude: pos.coords.longitude,
           latitude: pos.coords.latitude
         }
       }, this.getForecast);
+
+    this.getAreaFromCoords(pos.coords);
   };
 
   getForecast() {
@@ -74,21 +130,23 @@ class CardDetail extends Component {
       .then(res => res.json())
       .then(res => {
         this.setState({
+          isSaved: this.isSaved(),
           wasSuccessful: true,
           forecast: res
         });
       });
   }
 
-  getLocation() {
-    navigator.geolocation.getCurrentPosition(success => this.success(success));
+  getCurrentLocation() {
+    navigator.geolocation.getCurrentPosition(success => this.setCurrentPosition(success));
   }
 
   componentDidMount() {
     if(this.props.match.path && this.props.match.path === '/whereami') {
-      this.getLocation();
+      this.getCurrentLocation();
       return;
     }
+    this.setState({city: this.props.match.params.location})
     this.getCoordsFromCity(this.props.match.params.location);
     this.ticker = setInterval(
       () => this.tick(),
@@ -101,21 +159,17 @@ class CardDetail extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-    if(this.props.match.path && this.props.match.path === '/whereami') {
-      // this.shouldComponentUpdate(nextProps);
-      return true;
+    this.setState({
+        wasSuccessful: false
+    });
+    if(nextProps.match.path && nextProps.match.path === '/whereami') {
+      this.getCurrentLocation();
+      return;
+    }
+    if(this.props.match.params.location !== nextProps.match.params.location) {
+      this.setState({city: nextProps.match.params.location})
     }
   }
-
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if(this.props.match.path && this.props.match.path === '/whereami') {
-  //     this.getLocation();
-  //     return true;
-  //   }
-  //   console.log('false')
-  //   return false;
-  // }
 
   tick() {
     this.setState({
@@ -156,9 +210,15 @@ class CardDetail extends Component {
         <div className="CardDetail__wrapper">
           <div className="CardDetail">
             <div className={`CardDetail__weather CardDetail__weather--${TimeToString(this.state.time, this.state.forecast.timezone)}`} >
+              <span className="CardDetail__save" onClick={this.saveLocation}>
+                {this.state.isSaved 
+                  ? <i className="fas fa-star fa-2x"></i>
+                  : <i className="far fa-star fa-2x"></i>
+                }
+              </span>
               <span className="CardDetail__backdrop"><i className={`wi ${this.state.forecast.daily.data[0].icon}`}></i></span>
               <div className="CardDetail__location">
-                <h3>{CleanUpTimezone(this.state.forecast.timezone)}</h3>
+                <h3>{this.state.city.toUpperCase()}</h3>
                 <h4>{this.state.forecast.currently.summary.toUpperCase()}</h4>
               </div>
               <div className="CardDetail__temp">
