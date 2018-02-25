@@ -23,6 +23,9 @@ class CardDetail extends Component {
         url: process.env.REACT_APP_GMAP_URL,
         key: process.env.REACT_APP_GMAP_SECRET
       },
+      geo: {
+        key: process.env.REACT_APP_GEO_SECRET
+      },
       isSaved: false,
       wasSuccessful: false,
       isSearchQuery: true,
@@ -101,8 +104,8 @@ class CardDetail extends Component {
 
   getAreaFromCoords(coords) {
     fetch(this.state.gmap.url + 
-      'latlng=' + coords.latitude + 
-      ',' + coords.longitude + 
+      'latlng=' + coords.lat + 
+      ',' + coords.lng + 
       '&result_type=locality' +
       '&key=' + 
       this.state.gmap.key)
@@ -117,12 +120,12 @@ class CardDetail extends Component {
   setCurrentPosition(pos) {
     this.setState({
         location: {
-          longitude: pos.coords.longitude,
-          latitude: pos.coords.latitude
+          longitude: pos.location.lng,
+          latitude: pos.location.lat
         }
       }, this.getForecast);
 
-    this.getAreaFromCoords(pos.coords);
+    this.getAreaFromCoords(pos.location);
   };
 
   getForecast() {
@@ -151,7 +154,14 @@ class CardDetail extends Component {
   }
 
   getCurrentLocation() {
-    navigator.geolocation.getCurrentPosition(success => this.setCurrentPosition(success));
+    fetch('https://www.googleapis.com/geolocation/v1/geolocate?key=' + this.state.geo.key, {
+      method: 'post', 
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }})
+      .then(res => res.json())
+      .then(res => this.setCurrentPosition(res));
+    // navigator.geolocation.getCurrentPosition(success => this.setCurrentPosition(success));
   }
 
   componentDidMount() {

@@ -7,7 +7,7 @@ import './css/weather-icons.css';
 import App from './App';
 
 ReactDOM.render(
-    <BrowserRouter>
+    <BrowserRouter basename="/11">
 			<App />
 		</BrowserRouter>
 	, document.getElementById('root'));

@@ -2,6 +2,7 @@
   "name": "11-weather-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://joakimunge.chas.academy/11",
   "dependencies": {
     "dotenv": "^5.0.0",
     "moment": "^2.20.1",
