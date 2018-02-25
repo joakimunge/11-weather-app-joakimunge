@@ -100,6 +100,23 @@ class CardDetail extends Component {
     clearInterval(this.ticker);
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    if(this.props.match.path && this.props.match.path === '/whereami') {
+      // this.shouldComponentUpdate(nextProps);
+      return true;
+    }
+  }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if(this.props.match.path && this.props.match.path === '/whereami') {
+  //     this.getLocation();
+  //     return true;
+  //   }
+  //   console.log('false')
+  //   return false;
+  // }
+
   tick() {
     this.setState({
       time: moment()
