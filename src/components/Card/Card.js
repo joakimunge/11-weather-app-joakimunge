@@ -32,7 +32,7 @@ class Card extends Component {
     this.setState({
       loadingState: 'Fetching coordinates..'
     });
-    fetch(this.state.gmap.url + city + '&key=' + this.state.gmap.key)
+    fetch(this.state.gmap.url  + 'address=' + city + '&key=' + this.state.gmap.key)
       .catch(error => console.log(error))
       .then(res => res.json())
       .then(res => this.setState({
@@ -57,8 +57,10 @@ class Card extends Component {
       )
       .catch(error => {
         this.setState({
-          wasSuccessful: false
+          wasSuccessful: false,
+          loadingState: 'Looks like something went wrong. Try refreshing the page..'
         })
+        return;
       })
       .then(res => res.json())
       .then(res => {
