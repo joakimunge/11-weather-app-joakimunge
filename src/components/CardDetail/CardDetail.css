@@ -147,6 +147,43 @@
 	font-size:18px;
 }
 
+.CardDetail__conditions {
+	position: relative;
+	background-color: #FFF;
+	border-radius: 10px;
+	-webkit-box-shadow: 0px 30px 48px 0px rgba(0,0,0,0.16);
+  -moz-box-shadow: 0px 30px 48px 0px rgba(0,0,0,0.16);
+	box-shadow: 0px 30px 48px 0px rgba(0,0,0,0.16);
+	margin:0 0px 20px 20px;
+	font-family: 'Nunito';
+	overflow: hidden;
+	width: 100%;
+}
+
+.CardDetail__conditions__list {
+	display:flex;
+	color: #8E8E8E;
+	justify-content: space-around;
+}
+
+.CardDetail__conditions__item {
+	display:flex;
+	flex-direction: column;
+	min-height: 140px;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.CardDetail__conditions__item .wi {
+	color: #56CCF2;
+	font-size:36px;
+}
+
+.CardDetail__conditions__item--value {
+	font-size:18px;
+	font-weight: 600;
+}
+
 .CardDetail__backdrop {
 	font-size:400px;
 	position: absolute;
