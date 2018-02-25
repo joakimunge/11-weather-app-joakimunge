@@ -66,7 +66,6 @@ class CardDetail extends Component {
     this.setState({
       isSaved: true
     })
-    this.forceUpdate();
   }
 
   getCoordsFromCity(city) {
