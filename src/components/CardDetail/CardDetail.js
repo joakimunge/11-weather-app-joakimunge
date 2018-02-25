@@ -75,14 +75,28 @@ class CardDetail extends Component {
     fetch(this.state.gmap.url + '&address=' +  city + '&key=' + this.state.gmap.key)
       .catch(error => console.log(error))
       .then(res => res.json())
-      .then(res => this.setState({
-        location: {
-          longitude: res.results[0].geometry.location.lng,
-          latitude: res.results[0].geometry.location.lat,
-        },
-        loadingState: 'Gathering weather forecast..'
-      }))
-      .then(res => this.getForecast());
+      .then(res => {
+          if(res.results <= 0) {
+            this.setState({
+              returnedError: true,
+              loadingState: 'Something went wrong.. Try searching again!'
+            });
+          } else {
+            this.setState({
+              location: {
+                longitude: res.results[0].geometry.location.lng,
+                latitude: res.results[0].geometry.location.lat,
+              },
+              loadingState: 'Gathering weather forecast..',
+              returnedError: false
+            })}
+          }
+      )
+      .then(res => {
+        if(!this.state.returnedError) {
+          this.getForecast()
+        }
+      });
   }
 
   getAreaFromCoords(coords) {
@@ -158,15 +172,13 @@ class CardDetail extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-        wasSuccessful: false
-    });
     if(nextProps.match.path && nextProps.match.path === '/whereami') {
       this.getCurrentLocation();
       return;
     }
     if(this.props.match.params.location !== nextProps.match.params.location) {
-      this.setState({city: nextProps.match.params.location})
+      this.setState({city: nextProps.match.params.location, wasSuccessful: false})
+      this.getCoordsFromCity(nextProps.match.params.location);
     }
   }
 
@@ -236,6 +248,30 @@ class CardDetail extends Component {
           </div>
           <div className="CardDetail__daily">
             <CardDays forecast={this.state.forecast.daily} limit="8" />
+          </div>
+          <div className="CardDetail__conditions">
+            <ul className="CardDetail__conditions__list">
+              <li className="CardDetail__conditions__item">
+                <span className="icon"><i className="wi wi-sunrise"></i></span>
+                <span className="CardDetail__conditions__item--value">{LocalTime(moment(this.state.forecast.daily.data[0].sunriseTime * 1000), this.state.forecast.timezone, 'HH:mm')}</span>
+              </li>
+              <li className="CardDetail__conditions__item">
+                <span className="icon"><i className="wi wi-sunset"></i></span>
+                <span className="CardDetail__conditions__item--value">{LocalTime(moment(this.state.forecast.daily.data[0].sunsetTime * 1000), this.state.forecast.timezone, 'HH:mm')}</span>
+              </li>
+              <li className="CardDetail__conditions__item">
+                <span className="icon"><i className="wi wi-humidity"></i></span>
+                <span className="CardDetail__conditions__item--value">{this.state.forecast.daily.data[0].humidity}</span>
+              </li>
+              <li className="CardDetail__conditions__item">
+                <span className="icon"><i className="wi wi-windy"></i></span>
+                <span className="CardDetail__conditions__item--value">{this.state.forecast.daily.data[0].windSpeed}</span>
+              </li>
+              <li className="CardDetail__conditions__item">
+                <span className="icon"><i className="wi wi-barometer"></i></span>
+                <span className="CardDetail__conditions__item--value">{this.state.forecast.daily.data[0].pressure.toFixed()}</span>
+              </li>
+            </ul>
           </div>
         </div>
         :
