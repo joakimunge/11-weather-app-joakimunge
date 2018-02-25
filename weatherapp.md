@@ -1,9 +1,10 @@
 # Weatherapp
 
 ## Todo
-- Implement search by city **PRIORITY**
-- Move helper functions to new component **(IN PROGESS)**
+- Implement search by city **done**
+- Move helper functions to new component **(done)**
 - Routes for list and area view ***done***
+- IMPLEMENT ERRORS FOR CURRENT LOCATIONS
  
 ## Get started
 - Create react app: https://reactjs.org/docs/add-react-to-a-new-app.html
